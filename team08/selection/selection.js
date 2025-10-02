@@ -4,7 +4,6 @@ import {
   db_get_vocabs,
   init_db,
   local_get_categories,
-  local_get_guesses,
 } from "../store/read.js";
 import {
   local_set_categories,
@@ -19,9 +18,9 @@ import { CATEGORIES } from "../store/store_config.js";
  * @typedef {Object} FrontVocab
  * @property {string} en - English word (e.g., "sweater").
  * @property {string} sv - Swedish translation.
- * @property {string} img - Copyright or license information for the image.
- * @property {string} audio - URL or path to audio pronunciation (may be empty).
- * @property {string} id - URL or path to audio pronunciation (may be empty).
+ * @property {string} img
+ * @property {string} audio
+ * @property {string} id
  */
 
 /**
@@ -33,13 +32,14 @@ import { CATEGORIES } from "../store/store_config.js";
 
 await init_db();
 
-// Resets guesses
+// Resets guesses for testing, this should be done in start game
+// ---
 local_wipe_guesses();
+local_set_categories([CATEGORIES.FOOD]);
+// ---
 
 /** @type {Types.Guess[]} */
 let guesses = [];
-
-local_set_categories([CATEGORIES.FOOD]);
 
 let words = db_get_categories(local_get_categories());
 
