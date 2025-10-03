@@ -32,8 +32,24 @@ function safe_get() {
   return data;
 }
 
+/**
+ * Initializes the database if it hasn't been initialized yet and stores it in local storage.
+ *
+ * @returns {Promise<void>}
+ */
 export async function init_db() {
-  db = await loaddb();
+  /** @type {DB.Database} */
+  let safe_get_data = safe_get();
+  if (safe_get_data.vocab && safe_get_data.categories && safe_get_data.rows && safe_get_data.vocabLength && safe_get_data.categoryLength) {
+    console.log(safe_get_data);
+    db = safe_get_data;
+  } else {
+    db = await loaddb();
+    console.log("Loaded DB", db);
+    let data = get(TEAM);
+    data = { ...data, ...db }; // Merge existing data with db
+    set(TEAM, data);
+  }
 }
 
 /**
