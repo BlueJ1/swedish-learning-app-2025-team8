@@ -352,7 +352,7 @@ class WordsDetail {
           <tr>
             <td>${counter}</td>
             <td>${this.escapeHtml(data.word)} (${this.escapeHtml(data.translation)})</td>
-            <td>${this.escapeHtml(data.license)}</td>
+            <td>${data.license}</td>
           </tr>
         `;
         counter++;
