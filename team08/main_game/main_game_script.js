@@ -274,8 +274,11 @@ if (globalAudioSettings) {
 }
 
 //  Restore saved settings 
-const savedVolume = localStorage.getItem("gameVolume");
-const savedEffects = localStorage.getItem("effectsEnabled");
+// const savedVolume = localStorage.getItem("gameVolume");
+// const savedEffects = localStorage.getItem("effectsEnabled");
+
+const savedVolume = local_get_volume()/100;
+const savedEffects = local_get_sound_effects();
 
 if (savedVolume !== null) {
   volumeControl.value = savedVolume;
@@ -311,7 +314,7 @@ window.addEventListener("click", (event) => {
 volumeControl.addEventListener("input", () => {
   const vol = parseFloat(volumeControl.value);
   audioPlayer.volume = vol;
-  localStorage.setItem("gameVolume", vol);
+  // localStorage.setItem("gameVolume", vol);
   // updateglobal audio 
   local_set_volume(vol*100)
   
@@ -325,7 +328,7 @@ toggleEffects.addEventListener("click", () => {
     : `<i class="fas fa-music-slash"></i> OFF`;
   localStorage.setItem("effectsEnabled", effectsEnabled);
   
-// updateglobal audio 
+// update global audio 
   local_set_sound_effects(effectsEnabled);
 });
 
@@ -342,7 +345,8 @@ document.addEventListener("keydown", (e) => {
     let newVol = Math.min(1, parseFloat(volumeControl.value) + 0.1);
     volumeControl.value = newVol.toFixed(1);
     audioPlayer.volume = newVol;
-    localStorage.setItem("gameVolume", newVol);
+    // localStorage.setItem("gameVolume", newVol);
+    local_set_volume(newVol*100)
     showVolumePopup(`🔊 ${Math.round(newVol * 100)}%`);
   }
 
@@ -352,8 +356,8 @@ document.addEventListener("keydown", (e) => {
     let newVol = Math.max(0, parseFloat(volumeControl.value) - 0.1);
     volumeControl.value = newVol.toFixed(1);
     audioPlayer.volume = newVol;
-    localStorage.setItem("gameVolume", newVol);
-
+    // localStorage.setItem("gameVolume", newVol);
+    local_set_volume(newVol*100)
     showVolumePopup(`🔉 ${Math.round(newVol * 100)}%`);
   }
 
